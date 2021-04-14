@@ -408,7 +408,7 @@ namespace ControlBarrierFunction
 		if (constraint_type==1){
 			ub_x_[0] = -30*pow(V[0],1.0+1.0/mu)-30*pow(V[0],1.0-1.0/mu) - temp1;
 			lb_x_[1] = -OSQP_INFTY; 
-			Fx_[2*nu_] = V[0];			
+			Fx_[2*nu_] = -V[0];			
 		} else if(constraint_type ==2){
 			ub_x_[0] = -30*pow(V[0],1.0+1.0/mu)-30*pow(V[0],1.0-1.0/mu) - temp1;
 			lb_x_[1] = -OSQP_INFTY; 
@@ -441,6 +441,13 @@ namespace ControlBarrierFunction
 			double h_tau = (1-sigma(dt_frac))*h[0] + (C - V[0])*sigma(dt_frac); 
 			lb_x_[1] = -h_alpha[0]*2*h_tau - Lfh_tau; 
 			Fx_[2*nu_] = 0;
+		} else if (constraint_type == 8) {
+			double c = 0.1; 
+			V[0] = V[0] - 1/2*c*c; 
+			ub_x_[0] = -30*pow(V[0],1.0+1.0/mu)-30*pow(V[0],1.0-1.0/mu) - temp1;
+			lb_x_[1] = -OSQP_INFTY; 
+			Fx_[2*nu_] = -V[0];	
+			std::cout << "set convergence" << std::endl;
 		}else{
 			ub_x_[0] = OSQP_INFTY;//-V_alpha[0] *V[0]-temp1;	
 			lb_x_[1] = - h_alpha[0] *h[0]- temp2;
