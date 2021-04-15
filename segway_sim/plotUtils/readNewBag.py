@@ -17,12 +17,14 @@ from geometry_msgs.msg import Twist
 from main import getMOMDP
 
 from MOMDP import MOMDP, MOMDP_TOQ, MOMDP_TO, MOMDP_Q
-matplotlib.rcParams.update({'font.size': 22})
+matplotlib.rcParams.update({	'font.size': 22, 
+								'lines.linewidth': 0.5, 
+								'lines.markersize': 0.5})
 
 # bag = rosbag.Bag('/home/ugo/rosbag/_2020-10-31-15-01-06.bag')
 # bagNoBarrier = rosbag.Bag('/home/ugo/rosbag/_2020-10-31-15-04-29.bag')
 
-newest = max(glob.iglob('/home/kunal/rosbag/*.bag'), key=os.path.getctime)
+newest = max(glob.iglob('/home/rkcosner/Documents/Research/FxT/kunal_ws/src/segway_sim/bags/*.bag'), key=os.path.getctime)
 print("Open: ", newest)
 bag = rosbag.Bag(newest)
 bagNoBarrier = bag
@@ -504,11 +506,13 @@ if input == 'y':
 	plt.figure(figsize=(12,10))
 	plt.subplot(211)
 	plt.plot(time_lowLevel, h, '-o', label='h')
+	plt.hlines(0, 0, 5, 'k')
 	plt.xlim(0, 5)
+	plt.ylim(-0.5, 1.5)
 	plt.subplot(212)
 	plt.semilogy(time_lowLevel, V, '-o', label='V')
 	plt.xlim(0, 5)
-	# plt.ylim(0, 300)
+	plt.ylim(0.01, 10)
 
 	# uMPC_array = np.array(uMPC);
 	# uCBF_array = np.array(uCBF);
