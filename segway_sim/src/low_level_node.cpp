@@ -222,7 +222,7 @@ int main (int argc, char *argv[])
 	nhParams_->param<double>("max_psiDot"  , max_psiDot,0.3);
 
 	double x_max[nx] = {max_x, max_y, max_theta, max_v, max_thetaDot, max_psi, max_psiDot};
-	c_float H_x[4] = {1000,1000,10,1};
+	c_float H_x[4] = {1000,1000,100,1};
 	// if(constraint_type>0){
 	// 	c_float H_x[4] = {1,1,10,1000};
 	// } 
@@ -243,7 +243,7 @@ int main (int argc, char *argv[])
 	cbf->setMatrices(Alinear, Blinear, Clinear);
 	cbf->evaluateCBFqpConstraintMatrices(uMPC, 0, constraint_type, (dt_counter-dt_mpc)/dt_mpc);
 	cbf->setUpOSQP(0);
-	cbf->solveQP(10);
+	cbf->solveQP(0);
 
 	// Define parameters
 	const int printLevel = 0;
@@ -376,7 +376,7 @@ int main (int argc, char *argv[])
 			uMPC[1] = uPred[1];
 
  			cbf->evaluateCBFqpConstraintMatrices(uMPC, 0, constraint_type, (dt_counter-dt_mpc)/dt_mpc);
- 			cbf->solveQP(1);
+ 			cbf->solveQP(0);
 
 			// ROS_INFO("h %f",cbf->h[0]);
 
@@ -455,7 +455,7 @@ int main (int argc, char *argv[])
 			}
 			lowLevelLog_.V = cbf->V[0];
 			lowLevelLog_.h = cbf->h[0];
-			lowLevelLog_.flagQP = cbf->flagQP;
+			lowLevelLog_.flagQP = cbf->gamma;///cbf->flagQP;
 			pub_lowLevelLog_.publish(lowLevelLog_);
 			
 			// read ros time and print solver time
