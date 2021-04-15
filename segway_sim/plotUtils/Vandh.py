@@ -53,6 +53,7 @@ if input_received == 'y':
 	h = []
 	time_lowLevel = []
 	error_lowLevel = []
+	QPtime = []
 	dt_lowlevel = 0.001
 	for topic, msg, t in bag.read_messages(topics=['/segway_sim/lowLevelLog']):
 		X.append(msg.X)
@@ -65,7 +66,10 @@ if input_received == 'y':
 		uTot.append(msg.uTot)
 		V.append(msg.V)
 		h.append(msg.h)
+		QPtime.append(msg.QPtime)
 
+	plt.figure()
+	plt.plot(flagQP)
 	"""
 	plt.figure()
 	plt.plot(time_lowLevel, h, '-o', label='h')
@@ -78,15 +82,18 @@ if input_received == 'y':
 	index_tmax = time_lowLevel.index(min_val)
 
 	plt.figure()
-	plt.subplot(211)
+	plt.subplot(311)
 	plt.plot(time_lowLevel[:index_tmax], h[:index_tmax], '-o', label='h', linewidth=0.1, markersize=1)
 	plt.ylim((-0.1,1.1))
 	plt.hlines(0, 0, t_max, color='k', label="safety constraint")
 	plt.legend()
-	plt.subplot(212)
+	plt.subplot(312)
 	plt.plot(time_lowLevel[:index_tmax], V[:index_tmax], '-o', label='V', linewidth=0.1, markersize=1)
 	plt.ylim((0.05, 5))
 	plt.yscale('log')
+	plt.subplot(313)
+	plt.plot(time_lowLevel[:index_tmax], QPtime[:index_tmax])
+	plt.ylim((0, 0.005))
 	plt.legend()
 
 	t_max = 1
@@ -94,16 +101,32 @@ if input_received == 'y':
 	index_tmax = time_lowLevel.index(min_val)
 
 	plt.figure()
-	plt.subplot(211)
+	plt.subplot(311)
 	plt.plot(time_lowLevel[:index_tmax], h[:index_tmax], '-o', label='h', linewidth=0.1, markersize=1)
 	plt.ylim((-0.1,1.1))
 	plt.hlines(0, 0, t_max, color='k', label="safety constraint")
 	plt.legend()
-	plt.subplot(212)
+	plt.subplot(312)
 	plt.plot(time_lowLevel[:index_tmax], V[:index_tmax], '-o', label='V', linewidth=0.1, markersize=1)
 	plt.ylim((0.05, 5))
 	plt.yscale('log')
+	plt.subplot(313)
+	plt.plot(time_lowLevel[:index_tmax], QPtime[:index_tmax])
+	plt.ylim((0, 0.005))
 	plt.legend()
+
+
+
+	plt.figure()
+	plt.plot(QPtime)
+	plt.ylim(0,0.003)
+	plt.title("QP Solving Time")
+
+
+
+	plt.figure()
+	plt.plot(uCBF)
+	plt.show()
 	"""
 	uMPC_array = np.array(uMPC);
 	uCBF_array = np.array(uCBF);
