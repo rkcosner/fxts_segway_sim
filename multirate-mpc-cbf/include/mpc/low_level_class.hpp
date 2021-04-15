@@ -403,14 +403,15 @@ namespace ControlBarrierFunction
 
 		// Pick constraint in launch file with: low_level_constraint argument
 		double mu = 5.0; 
+		double alpha = 30; 
 		lb_x_[0] = -OSQP_INFTY;
 		ub_x_[1] = OSQP_INFTY;
 		if (constraint_type==1){
-			ub_x_[0] = -30*pow(V[0],1.0+1.0/mu)-30*pow(V[0],1.0-1.0/mu) - temp1;
+			ub_x_[0] = -alpha*pow(V[0],1.0+1.0/mu)-alpha*pow(V[0],1.0-1.0/mu) - temp1;
 			lb_x_[1] = -OSQP_INFTY; 
 			Fx_[2*nu_] = -V[0];			
 		} else if(constraint_type ==2){
-			ub_x_[0] = -30*pow(V[0],1.0+1.0/mu)-30*pow(V[0],1.0-1.0/mu) - temp1;
+			ub_x_[0] = -alpha*pow(V[0],1.0+1.0/mu)-alpha*pow(V[0],1.0-1.0/mu) - temp1;
 			lb_x_[1] = -OSQP_INFTY; 
 			Fx_[2*nu_] = 0;	
 		} else if(constraint_type == 3){
@@ -459,8 +460,8 @@ namespace ControlBarrierFunction
 		if (V_alpha[0]>=10000.0){
 			ub_x_[0] = OSQP_INFTY; 
 		}
-		std::cout << "Controller Type: " << constraint_type << std::endl;  
 		if (printLevel >= 1){
+			std::cout << "Controller Type: " << constraint_type << std::endl;  
 			std::cout << "ub: " << ub_x_[0] << ", " << ub_x_[1] << std::endl;
 			std::cout << "lb: " << lb_x_[0] << ", " << lb_x_[1] << std::endl;
 			for (int i = 0; i < 2*nu_+1; i++)
