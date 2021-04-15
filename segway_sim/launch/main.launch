@@ -12,8 +12,8 @@
 		<node name="integrator" pkg="segway_sim" type="integrator_node" output="screen">
 			<param name="dt" value="0.001" />
 			<param name="umax" value="20.0" />
-			<param name="input_delay_ms" value="10.0"/>
-			<rosparam param="IC">[0.5, 4.5, 3.14.0, 0.0, 0.0, 0.0, 0.0]</rosparam> 
+			<param name="input_delay_ms" value="0.0"/>
+			<rosparam param="IC">[0.5, 4.5, 3.14, 0.0, 0.0, 0.0, 0.0]</rosparam> 
 			<!--<rosparam param="IC">[0.5, 7.5, 3.14, 0.0, 0.0, 0.0, 0.0]</rosparam> --> 
 		</node>
 
